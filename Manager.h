@@ -5,27 +5,26 @@
 class Manager
 {
 private:
-	char* cmd;
-	BpTree* bptree;
-	SelectionTree* stree;
-	BpTree* bptree;
+	char *cmd;
+	BpTree *bptree;
+	SelectionTree *stree;
+	BpTree *bptree;
+
 public:
-	Manager(int bpOrder)	//constructor
+	Manager(int bpOrder) // constructor
 	{
 		/* You must fill here */
 	}
 
-
-	~Manager()//destructor
+	~Manager() // destructor
 	{
 		/* You must fill here */
 	}
 
 	ifstream fin;
 	ofstream flog;
-	
 
-	void run(const char* command);
+	void run(const char *command);
 	bool LOAD();
 	bool ADD();
 
@@ -39,6 +38,4 @@ public:
 
 	void printErrorCode(int n);
 	void printSuccessCode();
-
 };
-

@@ -1,8 +1,8 @@
 #pragma once
 
-#include<iostream>
-#include<cstring>
-#include<map>
+#include <iostream>
+#include <cstring>
+#include <map>
 using namespace std;
 
 class LoanBookData
@@ -16,9 +16,10 @@ private:
 
 public:
     LoanBookData() { this->loan_count = 0; }
-    ~LoanBookData() {};
+    ~LoanBookData(){};
 
-    void setBookData(string name, int code, string author, int year) {
+    void setBookData(string name, int code, string author, int year)
+    {
         this->name = name;
         this->code = code;
         this->author = author;
