@@ -22,7 +22,7 @@ public:
     }
     ~SelectionTreeNode()
     {
-    }
+        }
 
     void setBookData(LoanBookData *data) { this->pData = data; }
     void setLeftChild(SelectionTreeNode *pL) { this->pLeft = pL; }

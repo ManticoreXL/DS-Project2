@@ -7,22 +7,33 @@
 class SelectionTree
 {
 private:
-    SelectionTreeNode* root;
-    ofstream* fout;
+    SelectionTreeNode *root;
+    ofstream *fout;
 
 public:
-    SelectionTree(ofstream* fout) {
+    SelectionTree(ofstream *fout)
+    {
         this->root = NULL;
         this->fout = fout;
     }
-    ~SelectionTree() {
 
+    ~SelectionTree()
+    {
+        inorder_delete(root);
     }
 
-    void setRoot(SelectionTreeNode* pN) { this->root = pN; }
-    SelectionTreeNode* getRoot() { return root; }
+    void inorder_delete(SelectionTreeNode *node)
+    {
+        delete node->getLeftChild();
+        SelectionTreeNode *temp = node->getRightChild();
+        delete node;
+        delete temp;
+    }
 
-    bool Insert(LoanBookData* newData);
+    void setRoot(SelectionTreeNode *pN) { this->root = pN; }
+    SelectionTreeNode *getRoot() { return root; }
+
+    bool Insert(LoanBookData *newData);
     bool Delete();
     bool printBookData(int bookCode);
 };
