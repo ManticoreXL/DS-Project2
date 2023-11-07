@@ -2,8 +2,20 @@
 
 bool BpTree::Insert(LoanBookData *newData)
 {
-
+	if (root == nullptr)
+	{
+		root = new BpTreeIndexNode;
+		root->insertDataMap(newData->getName(), nullptr);
+	}
+	else
+	{
+		return Insert(root, newData);
+	}
 	return true;
+}
+
+bool BpTree::Insert(BpTreeNode *node, LoanBookData *newData)
+{
 }
 
 bool BpTree::excessDataNode(BpTreeNode *pDataNode)
