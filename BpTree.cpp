@@ -33,7 +33,6 @@ void BpTree::splitIndexNode(BpTreeNode *pIndexNode)
 BpTreeNode *BpTree::searchDataNode(string name)
 {
 	BpTreeNode *pCur = root;
-
 	return pCur;
 }
 
