@@ -36,6 +36,9 @@ bool BpTree::excessIndexNode(BpTreeNode *pIndexNode)
 
 void BpTree::splitDataNode(BpTreeNode *pDataNode)
 {
+	BpTreeDataNode *temp = new BpTreeDataNode();
+	temp->setNext(pDataNode->getNext());
+	pDataNode->setNext(temp);
 }
 
 void BpTree::splitIndexNode(BpTreeNode *pIndexNode)
