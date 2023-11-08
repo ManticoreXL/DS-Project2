@@ -16,6 +16,7 @@ public:
 		pNext = NULL;
 		pPrev = NULL;
 	}
+
 	~BpTreeDataNode()
 	{
 	}
@@ -34,7 +35,10 @@ public:
 	{
 		mapData.erase(name);
 	}
+
 	map<string, LoanBookData *> *getDataMap() { return &mapData; }
+
+	bool isleaf() { return true; }
 };
 
 #endif
