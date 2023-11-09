@@ -12,10 +12,10 @@ private:
 public:
     LoanBookHeapNode()
     {
-        this->pData = NULL;
-        this->pLeft = NULL;
-        this->pRight = NULL;
-        this->pParent = NULL;
+        this->pData = nullptr;
+        this->pLeft = nullptr;
+        this->pRight = nullptr;
+        this->pParent = nullptr;
     }
 
     LoanBookHeapNode(LoanBookData *data)

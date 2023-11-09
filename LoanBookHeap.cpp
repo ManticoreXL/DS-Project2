@@ -15,8 +15,32 @@ bool LoanBookHeap::Insert(LoanBookData *data)
         root = new LoanBookHeapNode(data);
         return true;
     }
-    else
+    
+    LoanBookHeapNode* curr = root;
+
+    while(curr != nullptr)
     {
-        LoanBookHeapNode *curr = root;
+        // swap case
+        if(curr->getBookData()->getName() > data->getName())
+        {
+            LoanBookData *temp = curr->getBookData();
+            curr->setBookData(data);
+            data = temp;
+        }
+        // downing case
+        else if (curr->getBookData()->getName() < data->getName())
+        {
+            // go to rightchild
+            if(curr->getLeftChild()->getBookData()->getName() < data->getName())
+                curr = curr->getRightChild();
+            // go to leftchild
+            else
+                curr = curr->getLeftChild();
+        }
+        // change case
+        else
+        {
+            curr->setBookData(data);
+        }
     }
 }
