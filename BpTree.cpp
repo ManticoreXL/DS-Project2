@@ -56,8 +56,8 @@ void BpTree::splitDataNode(BpTreeNode *pDataNode)
 	for(i; i != pDataNode->getDataMap()->end(); ++i)
 		dNode3->insertDataMap(i->first, i->second);
 
-	// insert two data nodes into new index node.
-	iNode->insertIndexMap(dNode1->getDataMap()->begin()->first, dNode1);
+	// first data node is already connected by mostleftchild pointer.
+	// insert second data node to new index node.
 	iNode->insertIndexMap(dNode3->getDataMap()->begin()->first, dNode3);
 
 	// split parent index node if it's necessary.
@@ -67,20 +67,42 @@ void BpTree::splitDataNode(BpTreeNode *pDataNode)
 
 void BpTree::splitIndexNode(BpTreeNode *pIndexNode)
 {
+	BpTreeNode* pNode = pIndexNode->getParent();
+	if(pNode == NULL)
+		pNode = new BpTreeIndexNode;
+	BpTreeIndexNode* iNode1 = new BpTreeIndexNode;
+	BpTreeIndexNode* iNode3 = new BpTreeIndexNode;
 
-	
+	// set link field
+	pNode->setParent(pIndexNode->getParent());
+	pNode->setMostLeftChild(iNode1);
+
+	iNode1->setParent(pNode);
+	iNode3->setParent(pNode);
+
+	// first element is already connected by mostleftchild pointer.
+	// insert second element into parent index node.
+	pNode->insertIndexMap(pIndexNode->getIndexMap()->begin()->first,
+						  iNode3);
+
+	// insert first and second element into parent index node.
+	pIndexNode->getMostLeftChild()->setParent(iNode1);
+	auto i = pIndexNode->getIndexMap()->begin();
+	iNode1->insertIndexMap(i->first, i->second);
+
+	// insert third and fourth element into 
+	(++i)->second->setParent(iNode3);
+	iNode3->setMostLeftChild(i->second);
+	iNode3->insertIndexMap((++i)->first, i->second);
+
+	// split parent index node if it's necessary
+	if(excessIndexNode(pNode) == false)
+		splitIndexNode(pNode);	
 }
 
 BpTreeNode *BpTree::searchDataNode(string name)
 {
-	BpTreeNode* curr = root;
-
-	while(curr->isLeaf() != false)
-	{
-			BpTreeNode* child = curr->getMostLeftChild();
-	}
-
-	return curr;
+	
 }
 
 bool BpTree::searchBook(string name)
@@ -89,4 +111,10 @@ bool BpTree::searchBook(string name)
 
 bool BpTree::searchRange(string start, string end)
 {
+}
+
+void tolower(string &data)
+{
+	for(char &c : data)
+		c = tolower(c);
 }
