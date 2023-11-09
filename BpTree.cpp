@@ -10,6 +10,56 @@ bool BpTree::Insert(LoanBookData *newData)
 	}
 
 	BpTreeNode *curr = searchDataNode(newData->getName());
+
+	if (curr->getParent() == NULL) // part 1: there's only a data node
+	{
+		if (excessDataNode(curr) == true) // insert
+			curr->insertDataMap(newData->getName(), newData);
+		else // split and insert
+		{
+			splitDataNode(curr);
+			if (root->getMostLeftChild()->getDataMap()->begin()->first > newData->getName())
+			{
+				// case 1: newData is eariler than mostLeftChild
+				curr = root->getMostLeftChild();
+				curr->insertDataMap(newData->getName(), newData);
+				return true;
+			}
+			else
+			{
+				// case 2: newData is later than mostLeftChild
+				curr = root->getIndexMap()->begin()->second;
+				curr->insertDataMap(newData->getName(), newData);
+				return true;
+			}
+		}
+	}
+	else // part 2: indexnode is existing over curr
+	{
+		if (excessDataNode(curr) == true) // insert
+		{
+			curr->insertDataMap(newData->getName(), newData);
+			return true;
+		}
+		else // split and insert
+		{
+			BpTreeNode *parent = curr->getParent();
+			splitDataNode(curr);
+
+			auto i = parent->getIndexMap()->begin();
+			for (i; i != parent->getIndexMap()->end(); i++)
+			{
+				if (i->first < newData->getName())
+				{
+					i->second->insertDataMap(newData->getName(), newData);
+					return true;
+				}
+			}
+		}
+	}
+
+	// failed to insert. return false.
+	return false;
 }
 
 bool BpTree::excessDataNode(BpTreeNode *pDataNode)
@@ -32,7 +82,10 @@ void BpTree::splitDataNode(BpTreeNode *pDataNode)
 	// create new index, data node
 	BpTreeNode *iNode = pDataNode->getParent();
 	if (iNode == nullptr)
+	{
 		iNode = new BpTreeIndexNode;
+		root = iNode;
+	}
 	BpTreeDataNode *dNode1 = new BpTreeDataNode;
 	BpTreeDataNode *dNode3 = new BpTreeDataNode;
 
@@ -108,16 +161,20 @@ BpTreeNode *BpTree::searchDataNode(string name)
 		curr = curr->getMostLeftChild();
 
 	// using data nodes' link field to find fit location to insert
-	while (curr != NULL)
-	{
-		if (curr->getDataMap()->begin()->first < name)
-			curr = curr->getNext();
-		else
-			break;
-	}
 
-	// return fit location's parent node
-	return curr->getParent();
+	do
+	{
+		auto i = curr->getDataMap()->begin();
+		for (i; i != curr->getDataMap()->end(); i++)
+		{
+			if (i->first > name) // found fit location to insert
+				return curr;
+		}
+		curr = curr->getNext();
+	} while (curr != NULL && curr->getNext() != NULL);
+
+	// name is the latest name in BpTree. return most right child.
+	return curr;
 }
 
 bool BpTree::searchBook(string name)
@@ -180,8 +237,26 @@ bool BpTree::searchRange(string start, string end)
 	return false;
 }
 
-void tolower(string &data)
+vector<LoanBookData *> &BpTree::linearPrint()
 {
-	for (char &c : data)
-		c = tolower(c);
+	vector<LoanBookData *> bookList;
+
+	BpTreeNode *curr = root;
+
+	// move to leaf node
+	while (curr->isLeaf() == false)
+		curr = curr->getMostLeftChild();
+
+	while (curr != NULL)
+	{
+		auto i = curr->getDataMap()->begin();
+
+		for (i; i != curr->getDataMap()->end(); i++)
+		{
+			bookList.push_back(i->second);
+		}
+		curr = curr->getNext();
+	}
+
+	return bookList;
 }

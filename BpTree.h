@@ -37,6 +37,8 @@ public:
 
 	bool searchBook(string name);
 	bool searchRange(string start, string end);
+
+	vector<LoanBookData *> &linearPrint();
 };
 
 #endif
