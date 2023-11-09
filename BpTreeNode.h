@@ -35,5 +35,5 @@ public:
 	virtual map<string, BpTreeNode *> *getIndexMap() { return {}; }
 	virtual map<string, LoanBookData *> *getDataMap() { return {}; }
 
-	virtual bool isleaf() { return false; }
+	virtual bool isLeaf() { return false; }
 };

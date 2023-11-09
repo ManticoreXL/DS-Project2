@@ -38,7 +38,7 @@ public:
 
 	map<string, LoanBookData *> *getDataMap() { return &mapData; }
 
-	bool isleaf() { return true; }
+	bool isLeaf() { return true; }
 };
 
 #endif

@@ -2,6 +2,15 @@
 
 bool BpTree::Insert(LoanBookData *newData)
 {
+	BpTreeNode* curr = searchDataNode(newData->getName());
+
+	if(excessDataNode(curr))
+		curr->insertDataMap(newData->getName(), newData);
+	else
+	{
+
+	}
+
 }
 
 bool BpTree::excessDataNode(BpTreeNode *pDataNode)
@@ -19,7 +28,6 @@ bool BpTree::excessIndexNode(BpTreeNode *pIndexNode)
 	else
 		return false;
 }
-
 void BpTree::splitDataNode(BpTreeNode *pDataNode)
 {
 }
@@ -30,6 +38,14 @@ void BpTree::splitIndexNode(BpTreeNode *pIndexNode)
 
 BpTreeNode *BpTree::searchDataNode(string name)
 {
+	BpTreeNode* curr = root;
+
+	while(curr->isLeaf() != false)
+	{
+			BpTreeNode* child = curr->getMostLeftChild();
+	}
+
+	return curr;
 }
 
 bool BpTree::searchBook(string name)
