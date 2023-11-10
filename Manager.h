@@ -8,7 +8,6 @@ private:
 	char *cmd;
 	BpTree *bptree;
 	SelectionTree *stree;
-	BpTree *bptree;
 
 public:
 	Manager(int bpOrder) // constructor
@@ -26,9 +25,12 @@ public:
 
 	void run(const char *command);
 	bool LOAD();
-	bool ADD();
+	bool ADD(string& data);
 
-	bool SEARCH_BP_BOOK(string book);
+	bool Parser(string& data);
+	bool Insert(string& name, int code, string& author, int year, int loan_count);
+
+	bool SEARCH_BP_BOOK(string& book);
 	bool SEARCH_BP_RANGE(string start, string end);
 
 	bool PRINT_BP();
@@ -37,5 +39,5 @@ public:
 	bool DELETE();
 
 	void printErrorCode(int n);
-	void printSuccessCode();
+	void printSuccessCode(string cmd);
 };

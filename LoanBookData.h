@@ -4,6 +4,7 @@
 #include <cstring>
 #include <map>
 #include <vector>
+#include <sstream>
 using namespace std;
 
 class LoanBookData
@@ -19,7 +20,7 @@ public:
     LoanBookData() { this->loan_count = 0; }
     ~LoanBookData(){};
 
-    void setBookData(string name, int code, string author, int year)
+    void setBookData(string &name, int code, string &author, int year)
     {
         this->name = name;
         this->code = code;
