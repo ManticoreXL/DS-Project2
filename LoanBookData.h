@@ -17,7 +17,15 @@ private:
     int loan_count;
 
 public:
-    LoanBookData() { this->loan_count = 0; }
+    LoanBookData() 
+    { 
+        name = "";
+        code = -1;
+        author = "";
+        year = 0;
+        loan_count = 0; 
+    }
+
     ~LoanBookData(){};
 
     void setBookData(string &name, int code, string &author, int year)

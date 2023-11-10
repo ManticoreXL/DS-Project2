@@ -10,18 +10,23 @@ private:
 	SelectionTree *stree;
 
 public:
-	Manager(int bpOrder) // constructor
-	{
-		/* You must fill here */
-	}
-
-	~Manager() // destructor
-	{
-		/* You must fill here */
-	}
-
 	ifstream fin;
 	ofstream flog;
+
+	// constructor
+	Manager(int bpOrder)
+	{
+		cmd = NULL;
+		bptree = new BpTree(&flog, bpOrder);
+		stree = new SelectionTree(&flog);
+	}
+
+	// destructor
+	~Manager()
+	{
+		delete bptree;
+		delete stree;
+	}
 
 	void run(const char *command);
 	bool LOAD();

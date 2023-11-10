@@ -237,26 +237,9 @@ bool BpTree::searchRange(string start, string end)
 	return false;
 }
 
-vector<LoanBookData *> &BpTree::linearPrint()
+bool BpTree::linearPrint()
 {
-	vector<LoanBookData *> bookList;
-
 	BpTreeNode *curr = root;
 
-	// move to leaf node
-	while (curr->isLeaf() == false)
-		curr = curr->getMostLeftChild();
-
-	while (curr != NULL)
-	{
-		auto i = curr->getDataMap()->begin();
-
-		for (i; i != curr->getDataMap()->end(); i++)
-		{
-			bookList.push_back(i->second);
-		}
-		curr = curr->getNext();
-	}
-
-	return bookList;
+	return false;
 }

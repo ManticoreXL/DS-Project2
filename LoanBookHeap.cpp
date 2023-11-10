@@ -43,4 +43,5 @@ bool LoanBookHeap::Insert(LoanBookData *data)
             curr->setBookData(data);
         }
     }
+    return false;
 }

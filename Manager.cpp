@@ -165,6 +165,8 @@ bool Manager::SEARCH_BP_BOOK(string &book)
 		cout << err << endl;
 		printErrorCode(300);
 	}
+
+	return false;
 }
 
 bool Manager::SEARCH_BP_RANGE(string s, string e)
@@ -179,6 +181,8 @@ bool Manager::SEARCH_BP_RANGE(string s, string e)
 		cout << err << endl;
 		printErrorCode(300);
 	}
+
+	return false;
 }
 
 bool Manager::PRINT_BP()
@@ -192,6 +196,8 @@ bool Manager::PRINT_BP()
 		cout << err << endl;
 		printErrorCode(400);
 	}
+
+	return false;
 }
 
 bool Manager::PRINT_ST()
@@ -205,6 +211,8 @@ bool Manager::PRINT_ST()
 		cout << err << endl;
 		printErrorCode(500);
 	}
+
+	return false;
 }
 
 bool Manager::DELETE()
@@ -218,6 +226,8 @@ bool Manager::DELETE()
 		cout << err << endl;
 		printErrorCode(600);
 	}
+
+	return false;
 }
 
 void Manager::printErrorCode(int n)
