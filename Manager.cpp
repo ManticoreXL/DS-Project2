@@ -1,10 +1,10 @@
 #include "Manager.h"
 
-void Manager::run(const char* command) 
+void Manager::run(const char *command)
 {
 	fin.open(command);
 
-	if(!fin)
+	if (fin.fail())
 	{
 		flog << "File Open Error" << endl;
 		return;
@@ -19,31 +19,26 @@ void Manager::run(const char* command)
 		string cmd;
 		getline(ss, cmd, '	');
 
-		if(cmd == "LOAD")
+		if (cmd == "LOAD")
 		{
 			LOAD();
 		}
-		else if(cmd == "ADD")
+		else if (cmd == "ADD")
 		{
-
 		}
-		else if(cmd == "SEARCH_BP")
+		else if (cmd == "SEARCH_BP")
 		{
-
 		}
-		else if(cmd == "PRINT_BP")
+		else if (cmd == "PRINT_BP")
 		{
-
 		}
-		else if(cmd == "PRINT_ST")
+		else if (cmd == "PRINT_ST")
 		{
-
 		}
-		else if(cmd == "DELETE")
+		else if (cmd == "DELETE")
 		{
-
 		}
-		else if(cmd == "EXIT")
+		else if (cmd == "EXIT")
 		{
 			printSuccessCode("EXIT");
 			exit(0);
@@ -52,8 +47,7 @@ void Manager::run(const char* command)
 		{
 			printErrorCode(700);
 		}
-
-	}	
+	}
 	fin.close();
 	return;
 }
@@ -65,23 +59,23 @@ bool Manager::LOAD()
 	{
 		ifstream fin("data.txt");
 
-		if(fin.fail())
+		if (fin.fail())
 			throw "bool Manager::LOAD()";
 
 		string line;
-		while(getline(fin, line))
+		while (getline(fin, line))
 		{
 			Parser(line);
 		}
 
 		printSuccessCode("LOAD");
 	}
-	catch(const char *err)
+	catch (const char *err)
 	{
 		cout << err << endl;
 		printErrorCode(100);
 	}
-	
+
 	return true;
 }
 
@@ -93,7 +87,7 @@ bool Manager::ADD(string &data)
 		Parser(data);
 		printSuccessCode("ADD");
 	}
-	catch(const char *err)
+	catch (const char *err)
 	{
 		cout << err << endl;
 		printErrorCode(200);
@@ -110,32 +104,37 @@ bool Manager::Parser(string &data)
 	stringstream ss(data);
 
 	// parse book data
-	if(getline(ss, sname, '	'));
-	else 
+	if (getline(ss, sname, '	'))
+		;
+	else
 	{
 		throw "void Manager::parser(string& data)";
 		return false;
 	}
-	if(getline(ss, scode, '	'));
-	else 
+	if (getline(ss, scode, '	'))
+		;
+	else
 	{
 		throw "void Manager::parser(string& data)";
 		return false;
 	}
-	if(getline(ss, sauthor, '	'));
-	else 
+	if (getline(ss, sauthor, '	'))
+		;
+	else
 	{
 		throw "void Manager::parser(string& data)";
 		return false;
 	}
-	if(getline(ss, syear, '	'));
-	else 
+	if (getline(ss, syear, '	'))
+		;
+	else
 	{
 		throw "void Manager::parser(string& data)";
 		return false;
 	}
-	if(getline(ss, slcount, '	'));
-	else 
+	if (getline(ss, slcount, '	'))
+		;
+	else
 	{
 		throw "void Manager::parser(string& data)";
 		return false;
@@ -146,94 +145,95 @@ bool Manager::Parser(string &data)
 }
 
 // insert bookdata into B+ tree without log
-bool Manager::Insert(string& name, int code, string& author, int year, int loan_count)
+bool Manager::Insert(string &name, int code, string &author, int year, int loan_count)
 {
-	LoanBookData* temp = new LoanBookData();
+	LoanBookData *temp = new LoanBookData();
 	temp->updateCount();
 
 	return bptree->Insert(temp);
 }
 
-bool Manager::SEARCH_BP_BOOK(string &book) 
+bool Manager::SEARCH_BP_BOOK(string &book)
 {
 	try
 	{
 		// todo: search
 		printSuccessCode("SEARCH_BP");
 	}
-	catch(const char *err)
+	catch (const char *err)
 	{
 		cout << err << endl;
 		printErrorCode(300);
 	}
 }
 
-bool Manager::SEARCH_BP_RANGE(string s, string e) 
+bool Manager::SEARCH_BP_RANGE(string s, string e)
 {
 	try
 	{
 		// todo: search
 		printSuccessCode("SEARCH_BP");
 	}
-	catch(const char *err)
+	catch (const char *err)
 	{
 		cout << err << endl;
 		printErrorCode(300);
 	}
 }
 
-bool Manager::PRINT_BP() 
+bool Manager::PRINT_BP()
 {
 	try
 	{
 		bptree->linearPrint();
 	}
-	catch(const char *err)
+	catch (const char *err)
 	{
 		cout << err << endl;
 		printErrorCode(400);
 	}
 }
 
-bool Manager::PRINT_ST() 
+bool Manager::PRINT_ST()
 {
 	try
 	{
 		// todo: print selection tree
 	}
-	catch(const char *err)
+	catch (const char *err)
 	{
 		cout << err << endl;
 		printErrorCode(500);
 	}
 }
 
-bool Manager::DELETE() 
+bool Manager::DELETE()
 {
 	try
 	{
 		// todo: delete
 	}
-	catch(const char *err)
+	catch (const char *err)
 	{
 		cout << err << endl;
 		printErrorCode(600);
 	}
 }
 
-void Manager::printErrorCode(int n) 
+void Manager::printErrorCode(int n)
 {
-	//ERROR CODE PRINT
+	// ERROR CODE PRINT
 	flog << "=======================" << endl;
 	flog << "ERROR " << n << endl;
-	flog << "=======================" << endl << endl;
+	flog << "=======================" << endl
+		 << endl;
 }
 
-void Manager::printSuccessCode(string cmd) 
+void Manager::printSuccessCode(string cmd)
 {
-	//SUCCESS CODE PRINT 
-	flog << "=======" << cmd <<"========" << endl;
+	// SUCCESS CODE PRINT
+	flog << "=======" << cmd << "========" << endl;
 	flog << "Success" << endl;
-	flog << "=======================" << endl << endl;
+	flog << "=======================" << endl
+		 << endl;
 }
-
