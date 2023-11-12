@@ -28,7 +28,6 @@ public:
 
 	/* essential */
 	bool Insert(LoanBookData *newData);
-	bool Insert(BpTreeNode* node, LoanBookData* newData);
 	bool excessDataNode(BpTreeNode *pDataNode);
 	bool excessIndexNode(BpTreeNode *pIndexNode);
 	bool splitDataNode(BpTreeNode *pDataNode);

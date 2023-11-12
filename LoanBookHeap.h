@@ -18,7 +18,4 @@ public:
     void heapifyDown(LoanBookHeapNode *pN);
 
     bool Insert(LoanBookData *data);
-    
-    vector<LoanBookData*>& printHeap();
-    void getHeapData(LoanBookHeapNode* node, vector<LoanBookData*>& heapData);
 };

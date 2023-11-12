@@ -71,17 +71,3 @@ bool LoanBookHeap::Insert(LoanBookData *data)
     }
     return false;
 }
-
-vector<LoanBookData*> &LoanBookHeap::printHeap()
-{
-    vector<LoanBookData*> heapData;
-    getHeapData(root, heapData);
-    return heapData;
-}
-
-void LoanBookHeap::getHeapData(LoanBookHeapNode* node, vector<LoanBookData*>& heapData)
-{
-    heapData.push_back(node->getBookData());
-    getHeapData(node->getLeftChild(), heapData);
-    getHeapData(node->getRightChild(), heapData);
-}

@@ -2,33 +2,25 @@
 
 bool BpTree::Insert(LoanBookData *newData)
 {
-	// BpTree is empty, create a new data node as the root
+	// if bptree is empty
 	if (root == NULL)
 	{
 		root = new BpTreeDataNode();
 		root->insertDataMap(newData->getName(), newData);
 		return true;
 	}
-	// find the location and insert
-	else
-	{
-		BpTreeNode* dataNode = searchDataNode(newData->getName());
-		return Insert(dataNode, newData);
-	}
-}
 
-bool BpTree::Insert(BpTreeNode* node, LoanBookData* newData)
-{
-	BpTreeDataNode* curr = dynamic_cast<BpTreeDataNode*>(node);
+	BpTreeNode* curr = searchDataNode(newData->getName());
 
-	// insert data into data map
-	curr->insertDataMap(newData->getName(), newData);
+	if (curr == NULL)
+		return false;
 
-	// curr has more data than order
+	dynamic_cast<BpTreeDataNode*>(curr)->insertDataMap(newData->getName(), newData);
+
 	if (excessDataNode(curr))
-	{
-		//todo
-	}
+		return splitDataNode(curr);
+
+	return true;
 }
 
 bool BpTree::excessDataNode(BpTreeNode *pDataNode)
@@ -49,61 +41,50 @@ bool BpTree::excessIndexNode(BpTreeNode *pIndexNode)
 
 bool BpTree::splitDataNode(BpTreeNode *pDataNode)
 {
-	// create new index, data node
-	BpTreeIndexNode *iNode = dynamic_cast<BpTreeIndexNode*>(pDataNode->getParent());
+	BpTreeDataNode* newDNode = new BpTreeDataNode();
 
-	// there is only a data node
-	if (iNode == NULL)
+	auto dMap = dynamic_cast<BpTreeDataNode*>(pDataNode)->getDataMap();
+	auto i = dMap->begin();
+	advance(i, dMap->size() / 2);
+
+	while (i != dMap->end())
 	{
-		iNode = new BpTreeIndexNode;
-		root = iNode;
+		newDNode->insertDataMap(i->first, i->second);
+		i = dMap->erase(i);
 	}
 
-	// create two data node to link
-	BpTreeDataNode *dNodeL = new BpTreeDataNode;
-	BpTreeDataNode *dNodeR = new BpTreeDataNode;
+	newDNode->setNext(dynamic_cast<BpTreeDataNode*>(pDataNode)->getNext());
+	dynamic_cast<BpTreeDataNode*>(pDataNode)->setNext(newDNode);
+	newDNode->setPrev(dynamic_cast<BpTreeDataNode*>(pDataNode));
 
-	// set link field
-	iNode->setMostLeftChild(dNodeL);
+	BpTreeIndexNode* pIndexNode = dynamic_cast<BpTreeIndexNode*>(pDataNode->getParent());
+	pIndexNode->insertIndexMap(newDNode->getDataMap()->begin()->first, newDNode);
 
-
+	return true;
 }
 
 bool BpTree::splitIndexNode(BpTreeNode *pIndexNode)
 {
-	BpTreeIndexNode *pNode = dynamic_cast<BpTreeIndexNode*>(pIndexNode->getParent());
-	if (pNode == NULL)
-		pNode = new BpTreeIndexNode;
-	BpTreeIndexNode *iNode1 = new BpTreeIndexNode;
-	BpTreeIndexNode *iNode3 = new BpTreeIndexNode;
+	BpTreeIndexNode* newINode = new BpTreeIndexNode();
 
-	// set link field
-	pNode->setParent(pIndexNode->getParent());
-	pNode->setMostLeftChild(iNode1);
+	auto iMap = dynamic_cast<BpTreeIndexNode*>(pIndexNode)->getIndexMap();
+	auto i = iMap->begin();
+	advance(i, iMap->size() / 2);
 
-	iNode1->setParent(pNode);
-	iNode3->setParent(pNode);
+	while (i != iMap->end())
+	{
+		newINode->insertIndexMap(i->first, i->second);
+		i = iMap->erase(i);
+	}
 
-	// first element is already connected by mostleftchild pointer.
-	// insert second element into parent index node.
-	pNode->insertIndexMap(pIndexNode->getIndexMap()->begin()->first,
-						  iNode3);
+	newINode->setNext(dynamic_cast<BpTreeIndexNode*>(pIndexNode)->getNext());
+	dynamic_cast<BpTreeIndexNode*>(pIndexNode)->setNext(newINode);
+	newINode->setPrev(dynamic_cast<BpTreeIndexNode*>(pIndexNode));
 
-	// insert first and second element into parent index node.
-	pIndexNode->getMostLeftChild()->setParent(iNode1);
-	auto i = pIndexNode->getIndexMap()->begin();
-	iNode1->insertIndexMap(i->first, i->second);
+	BpTreeIndexNode* pINode = dynamic_cast<BpTreeIndexNode*>(pIndexNode->getParent());
+	pINode->insertIndexMap(newINode->getIndexMap()->begin()->first, newINode);
 
-	// insert third and fourth element into
-	(++i)->second->setParent(iNode3);
-	iNode3->setMostLeftChild(i->second);
-	iNode3->insertIndexMap((++i)->first, i->second);
-
-	// split parent index node if it's necessary
-	if (excessIndexNode(pNode) == false)
-		splitIndexNode(pNode);
-
-	return pNode;
+	return true;
 }
 
 BpTreeNode *BpTree::searchDataNode(string name)
@@ -118,7 +99,7 @@ BpTreeNode *BpTree::searchDataNode(string name)
 
 	// search data node's map
 	// if there is not data to search, move to next data node by link field
-	do
+	while (dcurr != NULL)
 	{
 		auto i = dcurr->getDataMap()->begin();
 
@@ -126,7 +107,7 @@ BpTreeNode *BpTree::searchDataNode(string name)
 			if (i->first == name) return dcurr;
 
 		dcurr = dynamic_cast<BpTreeDataNode*>(dcurr->getNext());
-	} while (curr != NULL);
+	}
 
 	// return the location to insert
 	return dcurr;
@@ -160,60 +141,51 @@ bool BpTree::searchBook(string name)
 
 bool BpTree::searchRange(string start, string end)
 {
-	BpTreeNode *curr = root;
-	if (curr == NULL)
-		throw "bool BpTree::searchRange(string start, string end)";
+	BpTreeNode* curr = root;
 
-	bool exstart = false;
-	bool exend = false;
-
-	// move to most left data node
 	while (curr->isLeaf() == false)
-		curr = curr->getMostLeftChild();
-
-	// linear search using data node's link field
-	while (curr != NULL)
 	{
-		// find start point
-		auto i = curr->getDataMap()->begin();
-		for (i; i != curr->getDataMap()->end(); i++)
-		{
-			if (i->first > start)
-			{
-				exstart = true;
-				break;
-			}
-		}
-		curr = curr->getNext();
+		auto iMap = dynamic_cast<BpTreeIndexNode*>(curr)->getIndexMap();
+		auto i = iMap->upper_bound(start);
+
+		if (i == iMap->begin())
+			i = iMap->begin();
+		else
+			--i;
+
+		curr = i->second;
 	}
 
-	// todo: extract data between start and end.
+	while (curr != NULL && curr->isLeaf())
+	{
+		auto dMap = dynamic_cast<BpTreeDataNode*>(curr)->getDataMap();
 
-	return false;
+		for (auto i = dMap->lower_bound(start); i != dMap->end() && i->first <= end; ++i)
+			*fout << *(i->second);
+
+		curr = dynamic_cast<BpTreeDataNode*>(curr)->getNext();
+	}
+
+	return true;
 }
 
 bool BpTree::linearPrint()
 {
-	BpTreeNode *curr = root;
+	BpTreeNode* curr = root;
 
-	if (curr == NULL)
+	while (curr != NULL && curr->isLeaf() == false)
+		curr = dynamic_cast<BpTreeDataNode*>(curr)->getMostLeftChild();
+
+	while (curr != NULL && curr->isLeaf())
 	{
-		throw "bool BpTree::linearPrint() - BpTree is empty.";
-		return false;
+		auto dMap = dynamic_cast<BpTreeDataNode*>(curr)->getDataMap();
+
+		for (auto i = dMap->begin(); i != dMap->end(); ++i)
+			*fout << *(i->second);
+
+		curr = dynamic_cast<BpTreeDataNode*>(curr)->getNext();
+
 	}
 
-	while(curr->isLeaf() == false)
-		curr = curr->getMostLeftChild();
-
-	while (curr)
-	{
-		auto i = curr->getDataMap()->begin();
-
-		for (i; i != curr->getDataMap()->end(); i++)
-		{
-			*fout << i->second << endl;
-		}
-	}
-
-	return false;
+	return true;
 }

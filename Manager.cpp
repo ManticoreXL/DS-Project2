@@ -10,6 +10,8 @@ void Manager::run(const char *command)
 		return;
 	}
 
+	flog.open("log.txt");
+
 	string input;
 
 	// parse string into command and data
@@ -50,6 +52,7 @@ void Manager::run(const char *command)
 		}
 	}
 	fin.close();
+	flog.close();
 	return;
 }
 

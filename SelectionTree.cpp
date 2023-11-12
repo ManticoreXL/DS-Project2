@@ -110,8 +110,8 @@ void SelectionTree::printBookData(SelectionTreeNode* node, int bookCode)
 		printBookData(node->getRightChild(), bookCode);
 	else
 	{
-		if (node->getLeftChild() != NULL && node->getRightChild()->getHeap() != NULL)
-			node->getLeftChild()->getHeap()->printHeap();
+		if (node->getLeftChild() != NULL && node->getRightChild()->getHeap() != NULL);
+			//node->getLeftChild()->getHeap()->printHeap();
 		else
 			throw "void SelectionTree::printBookData(SelectionTreeNode* node, int bookCode) - No heap data";
 	}

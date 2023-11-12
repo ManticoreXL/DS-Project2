@@ -1,6 +1,5 @@
 #pragma once
 #include "SelectionTreeNode.h"
-
 #include <fstream>
 #include <iostream>
 
