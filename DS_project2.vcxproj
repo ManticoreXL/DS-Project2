@@ -145,6 +145,11 @@
     <ClInclude Include="SelectionTree.h" />
     <ClInclude Include="SelectionTreeNode.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="command.txt" />
+    <Text Include="loan_book.txt" />
+    <Text Include="log.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

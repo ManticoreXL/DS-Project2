@@ -28,10 +28,11 @@ public:
 
 	/* essential */
 	bool Insert(LoanBookData *newData);
+	bool Insert(BpTreeNode* node, LoanBookData* newData);
 	bool excessDataNode(BpTreeNode *pDataNode);
 	bool excessIndexNode(BpTreeNode *pIndexNode);
-	void splitDataNode(BpTreeNode *pDataNode);
-	void splitIndexNode(BpTreeNode *pIndexNode);
+	bool splitDataNode(BpTreeNode *pDataNode);
+	bool splitIndexNode(BpTreeNode *pIndexNode);
 	BpTreeNode *getRoot() { return root; }
 	BpTreeNode *searchDataNode(string name);
 

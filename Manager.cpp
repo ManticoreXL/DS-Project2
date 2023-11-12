@@ -31,6 +31,7 @@ void Manager::run(const char *command)
 		}
 		else if (cmd == "PRINT_BP")
 		{
+			PRINT_BP();
 		}
 		else if (cmd == "PRINT_ST")
 		{
@@ -57,10 +58,10 @@ bool Manager::LOAD()
 {
 	try
 	{
-		ifstream fin("data.txt");
+		ifstream fin("loan_book.txt");
 
 		if (fin.fail())
-			throw "bool Manager::LOAD()";
+			throw "bool Manager::LOAD() - failed to read loan_book.txt";
 
 		string line;
 		while (getline(fin, line))
@@ -148,7 +149,10 @@ bool Manager::Parser(string &data)
 bool Manager::Insert(string &name, int code, string &author, int year, int loan_count)
 {
 	LoanBookData *temp = new LoanBookData();
-	temp->updateCount();
+	temp->setName(name);
+	temp->setCode(code);
+	temp->setAuthor(author);
+	temp->setYear(year);	
 
 	return bptree->Insert(temp);
 }

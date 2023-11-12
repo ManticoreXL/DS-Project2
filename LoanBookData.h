@@ -17,18 +17,18 @@ private:
     int loan_count;
 
 public:
-    LoanBookData() 
-    { 
+    LoanBookData()
+    {
         name = "";
         code = -1;
         author = "";
         year = 0;
-        loan_count = 0; 
+        loan_count = 0;
     }
 
-    ~LoanBookData(){};
+    ~LoanBookData() {};
 
-    void setBookData(string &name, int code, string &author, int year)
+    void setBookData(string& name, int code, string& author, int year)
     {
         this->name = name;
         this->code = code;
@@ -47,4 +47,10 @@ public:
     string getAuthor() { return author; }
     int getYear() { return year; }
     int getLoanCount() { return loan_count; }
+
+    friend ostream& operator<<(ostream& fout, const LoanBookData& obj)
+    {
+        fout << obj.name << '/' << obj.code << '/' << obj.author << '/' << obj.year << '/' << obj.loan_count << endl;
+        return fout;
+    }
 };

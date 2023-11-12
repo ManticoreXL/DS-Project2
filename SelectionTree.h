@@ -34,6 +34,10 @@ public:
     SelectionTreeNode *getRoot() { return root; }
 
     bool Insert(LoanBookData *newData);
+    SelectionTreeNode* Insert(SelectionTreeNode* node, LoanBookData* newData);
+    SelectionTreeNode* findMinNode(SelectionTreeNode* node);
     bool Delete();
+    SelectionTreeNode* Delete(SelectionTreeNode* node, string name);
     bool printBookData(int bookCode);
+    void printBookData(SelectionTreeNode* node, int bookCode);
 };
