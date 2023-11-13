@@ -9,6 +9,10 @@ bool BpTree::Insert(LoanBookData *newData)
 	// move to data node to insert
 	BpTreeNode* curr = searchDataNode(newData->getName());
 
+	// if book already exists, update count
+	if (curr->getDataMap()->begin()->first == newData->getName())
+		curr->getDataMap()->begin()->second->updateCount();
+
 	// if newdata already exists in curr
 	auto i = curr->getDataMap()->find(newData->getName());
 	if (i != curr->getDataMap()->end())
