@@ -27,9 +27,21 @@ void Manager::run(const char *command)
 		}
 		else if (cmd == "ADD")
 		{
+			string data;
+			getline(ss, data, '\r');
+			ADD(data);
 		}
 		else if (cmd == "SEARCH_BP")
 		{
+			string obj1, obj2;
+			getline(ss, obj1, '	');
+			if (ss.eof())
+				SEARCH_BP_BOOK(obj1);
+			else
+			{
+				getline(ss, obj2, '	');
+				SEARCH_BP_RANGE(obj1, obj2);
+			}
 		}
 		else if (cmd == "PRINT_BP")
 		{
@@ -37,9 +49,11 @@ void Manager::run(const char *command)
 		}
 		else if (cmd == "PRINT_ST")
 		{
+			PRINT_ST();
 		}
 		else if (cmd == "DELETE")
 		{
+			// todo
 		}
 		else if (cmd == "EXIT")
 		{
@@ -51,6 +65,8 @@ void Manager::run(const char *command)
 			printErrorCode(700);
 		}
 	}
+	input.clear();
+
 	fin.close();
 	flog.close();
 	return;
@@ -66,13 +82,22 @@ bool Manager::LOAD()
 		if (fin.fail())
 			throw "bool Manager::LOAD() - failed to read loan_book.txt";
 
+		bool succ = true;
+
 		string line;
 		while (getline(fin, line))
-		{
-			Parser(line);
-		}
+			succ = succ && Parser(line);
 
-		printSuccessCode("LOAD");
+		if (succ == true)
+		{
+			printSuccessCode("LOAD");
+			return true;
+		}
+		else
+		{
+			printErrorCode(100);
+			return false;
+		}
 	}
 	catch (const char *err)
 	{
@@ -80,7 +105,7 @@ bool Manager::LOAD()
 		printErrorCode(100);
 	}
 
-	return true;
+	return false;
 }
 
 // add bookdata into B+tree with logging
@@ -88,8 +113,10 @@ bool Manager::ADD(string &data)
 {
 	try
 	{
-		Parser(data);
-		printSuccessCode("ADD");
+		if (Parser(data))
+			printSuccessCode("ADD");
+		else
+			printErrorCode(200);
 	}
 	catch (const char *err)
 	{
@@ -98,13 +125,13 @@ bool Manager::ADD(string &data)
 		return false;
 	}
 
-	return true;
+	return false;
 }
 
 // parse string data into name, code, author, year, loan_count.
 bool Manager::Parser(string &data)
 {
-	string sname, scode, sauthor, syear, slcount;
+	string cmd, sname, scode, sauthor, syear, slcount;
 	stringstream ss(data);
 
 	// parse book data
@@ -164,8 +191,9 @@ bool Manager::SEARCH_BP_BOOK(string &book)
 {
 	try
 	{
-		// todo: search
-		printSuccessCode("SEARCH_BP");
+		if (bptree->searchBook(book));
+		else
+			printErrorCode(300);
 	}
 	catch (const char *err)
 	{
@@ -180,8 +208,9 @@ bool Manager::SEARCH_BP_RANGE(string s, string e)
 {
 	try
 	{
-		// todo: search
-		printSuccessCode("SEARCH_BP");
+		if (bptree->searchRange(s, e));
+		else
+			printErrorCode(300);
 	}
 	catch (const char *err)
 	{
