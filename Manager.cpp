@@ -10,7 +10,7 @@ void Manager::run(const char *command)
 		return;
 	}
 
-	flog.open("log.txt");
+	flog.open("log.txt", std::ios::app);
 
 	string input;
 
