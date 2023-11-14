@@ -11,7 +11,11 @@ bool BpTree::Insert(LoanBookData *newData)
 
 	// if book already exists, update count
 	if (curr->getDataMap()->begin()->first == newData->getName())
+	{
 		curr->getDataMap()->begin()->second->updateCount();
+		return true;
+	}
+
 
 	// if newdata already exists in curr
 	auto i = curr->getDataMap()->find(newData->getName());
