@@ -1,3 +1,8 @@
 ﻿  BpTree.cpp
-C:\Users\user\Desktop\projects\DS_Project2\DS_project2\BpTree.h(24,26): warning C4244: '=': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\user\Desktop\projects\DS_Project2\DS_project2\BpTree.h(24,15): warning C4244: '=': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Manager.cpp
+C:\Users\user\Desktop\projects\DS_Project2\DS_project2\BpTree.h(24,15): warning C4244: '=': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  main.cpp
+C:\Users\user\Desktop\projects\DS_Project2\DS_project2\BpTree.h(24,15): warning C4244: '=': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  코드를 생성하고 있습니다...
   DS_project2.vcxproj -> C:\Users\user\Desktop\projects\DS_Project2\x64\Debug\DS_project2.exe

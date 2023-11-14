@@ -9,22 +9,17 @@ bool BpTree::Insert(LoanBookData *newData)
 	// move to data node to insert
 	BpTreeNode* curr = searchDataNode(newData->getName());
 
-	// if book already exists, update count
-	if (curr->getDataMap()->begin()->first == newData->getName())
-	{
-		curr->getDataMap()->begin()->second->updateCount();
-		return true;
-	}
-
-
-	// if newdata already exists in curr
+	// if newdata already exists in curr (ADD)
 	auto i = curr->getDataMap()->find(newData->getName());
 	if (i != curr->getDataMap()->end())
 	{
-		// delete and return false;
+		// update loan count and return true.
+		i->second->updateCount();
+		*fout << "========ADD========" << endl;
+		*fout << *(i->second);
+		*fout << "====================" << endl << endl;
 		delete newData;
-		throw "bool BpTree::Insert(LoanBookData *newData) - newData already exists.";
-		return false;
+		return true;
 	}
 
 	// insert data into curr
@@ -93,7 +88,7 @@ void BpTree::splitDataNode(BpTreeNode *pDataNode)
 	auto movdata = pDataNode->getDataMap()->begin();
 
 	// move pDataNode's data to dNode
-	for (int i = 0; i < cond; i++)
+	for (int i = 0; i < split; i++)
 	{
 		dNode->insertDataMap(movdata->first, movdata->second);
 		string movstr = movdata->first;
@@ -141,15 +136,14 @@ void BpTree::splitIndexNode(BpTreeNode *pIndexNode)
 	LCNode->getMostLeftChild()->setParent(LCNode);
 
 	auto temp = pIndexNode->getIndexMap()->begin();
+
 	string movindex;
-
-
-	for (int i = 0; i < cond; i++)
+	for (int i = 0; i < split; i++)
 	{
 		// move pIndexNode's index map to LCNode
 		LCNode->insertIndexMap(temp->first, temp->second);
 		temp->second->setParent(LCNode);
-		movindex = temp->first;
+		movindex = (temp++)->first;
 		pIndexNode->deleteMap(movindex);
 	}
 	
@@ -199,7 +193,7 @@ BpTreeNode* BpTree::searchDataNode(string name)
 	BpTreeNode* curr = root;
 
 	// move to most left data node
-	while (curr != NULL && curr->getMostLeftChild())
+	while (curr != nullptr && curr->getMostLeftChild())
 	{
 		auto i = curr->getIndexMap()->begin();
 

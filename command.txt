@@ -1,6 +1,6 @@
 LOAD
-ADD	project hail mary	300	andy weir	2021	0
+ADD	to kill a monchingbird	400	Harper Lee	1960
+ADD	1984	100	george orwell	1949
 PRINT_BP
 SEARCH_BP	1984
-SEARCH_BP	project hail mary
 SEARCH_BP	a	p

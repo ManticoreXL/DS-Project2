@@ -32,8 +32,8 @@ public:
 	bool LOAD();
 	bool ADD(string& data);
 
-	bool Parser(string& data);
-	bool Insert(string& name, int code, string& author, int year, int loan_count);
+	bool ParseLOAD(string& data);
+	bool ParseADD(string& data);
 
 	bool SEARCH_BP_BOOK(string& book);
 	bool SEARCH_BP_RANGE(string start, string end);

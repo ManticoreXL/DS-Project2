@@ -1,6 +1,6 @@
 #include "Manager.h"
 
-void Manager::run(const char *command)
+void Manager::run(const char* command)
 {
 	fin.open(command);
 
@@ -86,7 +86,7 @@ bool Manager::LOAD()
 
 		string line;
 		while (getline(fin, line))
-			succ = succ && Parser(line);
+			succ = succ && ParseLOAD(line);
 
 		if (succ == true)
 		{
@@ -113,8 +113,7 @@ bool Manager::ADD(string &data)
 {
 	try
 	{
-		if (Parser(data))
-			printSuccessCode("ADD");
+		if (ParseADD(data));
 		else
 			printErrorCode(200);
 	}
@@ -129,42 +128,37 @@ bool Manager::ADD(string &data)
 }
 
 // parse string data into name, code, author, year, loan_count.
-bool Manager::Parser(string &data)
+bool Manager::ParseLOAD(string &data)
 {
 	string cmd, sname, scode, sauthor, syear, slcount;
 	stringstream ss(data);
 
 	// parse book data
-	if (getline(ss, sname, '	'))
-		;
+	if (getline(ss, sname, '	'));
 	else
 	{
 		throw "void Manager::parser(string& data)";
 		return false;
 	}
-	if (getline(ss, scode, '	'))
-		;
+	if (getline(ss, scode, '	'));
 	else
 	{
 		throw "void Manager::parser(string& data)";
 		return false;
 	}
-	if (getline(ss, sauthor, '	'))
-		;
+	if (getline(ss, sauthor, '	'));
 	else
 	{
 		throw "void Manager::parser(string& data)";
 		return false;
 	}
-	if (getline(ss, syear, '	'))
-		;
+	if (getline(ss, syear, '	'));
 	else
 	{
 		throw "void Manager::parser(string& data)";
 		return false;
 	}
-	if (getline(ss, slcount, '	'))
-		;
+	if (getline(ss, slcount, '	'));
 	else
 	{
 		throw "void Manager::parser(string& data)";
@@ -172,19 +166,48 @@ bool Manager::Parser(string &data)
 	}
 
 	// insert parsed bookdata into B+ tree
-	return Insert(sname, stoi(scode), sauthor, stoi(syear), stoi(slcount));
+	LoanBookData* node = new LoanBookData;
+	node->setBookData(sname, stoi(scode), sauthor, stoi(syear));
+	node->setCount(stoi(slcount));
+
+	return bptree->Insert(node);
 }
 
-// insert bookdata into B+ tree without log
-bool Manager::Insert(string &name, int code, string &author, int year, int loan_count)
+bool Manager::ParseADD(string& data)
 {
-	LoanBookData *temp = new LoanBookData();
-	temp->setName(name);
-	temp->setCode(code);
-	temp->setAuthor(author);
-	temp->setYear(year);	
+	string cmd, sname, scode, sauthor, syear;
+	stringstream ss(data);
 
-	return bptree->Insert(temp);
+	// parse book data
+	if (getline(ss, sname, '	'));
+	else
+	{
+		throw "void Manager::parser(string& data)";
+		return false;
+	}
+	if (getline(ss, scode, '	'));
+	else
+	{
+		throw "void Manager::parser(string& data)";
+		return false;
+	}
+	if (getline(ss, sauthor, '	'));
+	else
+	{
+		throw "void Manager::parser(string& data)";
+		return false;
+	}
+	if (getline(ss, syear, '	'));
+	else
+	{
+		throw "void Manager::parser(string& data)";
+		return false;
+	}
+
+	// insert parsed data into B+ tree
+	LoanBookData* node = new LoanBookData;
+	node->setBookData(sname, stoi(scode), sauthor, stoi(syear));
+	return bptree->Insert(node);
 }
 
 bool Manager::SEARCH_BP_BOOK(string &book)

@@ -13,7 +13,7 @@ private:
 	BpTreeNode *root;
 	int order; // m children
 	ofstream *fout;
-	int cond;
+	int split;
 
 public:
 	BpTree(ofstream *fout, int order = 3)
@@ -21,7 +21,7 @@ public:
 		root = NULL;
 		this->order = order;
 		this->fout = fout;
-		cond = ceil(order - 1) / 2.0;
+		split = ceil((order - 1) / 2.0);
 	}
 
 	~BpTree()
@@ -29,6 +29,7 @@ public:
 		recursive_delete(root);
 	}
 
+	// visit every node by inorder traverse and delete
 	void recursive_delete(BpTreeNode* node)
 	{
 		if (node)
