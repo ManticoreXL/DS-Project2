@@ -39,7 +39,7 @@ public:
 	bool SEARCH_BP_RANGE(string start, string end);
 
 	bool PRINT_BP();
-	bool PRINT_ST();
+	bool PRINT_ST(int code);
 
 	bool DELETE();
 

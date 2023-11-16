@@ -35,10 +35,19 @@ void Manager::run(const char* command)
 		{
 			string obj1, obj2;
 			getline(ss, obj1, '	');
-			if (ss.eof())
+			if (obj1 == "")
+			{
+				// no obj1
+				printErrorCode(400);
+			}
+			else if (ss.eof())
+			{
+				// no obj2
 				SEARCH_BP_BOOK(obj1);
+			}
 			else
 			{
+				// obj1 and obj2
 				getline(ss, obj2, '	');
 				SEARCH_BP_RANGE(obj1, obj2);
 			}
@@ -49,11 +58,16 @@ void Manager::run(const char* command)
 		}
 		else if (cmd == "PRINT_ST")
 		{
-			PRINT_ST();
+			string scode;
+			getline(ss, scode, '	');
+			if (scode == "")
+				printErrorCode(500); // no code
+			else 
+				PRINT_ST(stoi(scode));
 		}
 		else if (cmd == "DELETE")
 		{
-			// todo
+			DELETE();
 		}
 		else if (cmd == "EXIT")
 		{
@@ -113,7 +127,8 @@ bool Manager::ADD(string &data)
 {
 	try
 	{
-		if (ParseADD(data));
+		if (ParseADD(data))
+			return true;
 		else
 			printErrorCode(200);
 	}
@@ -214,7 +229,8 @@ bool Manager::SEARCH_BP_BOOK(string &book)
 {
 	try
 	{
-		if (bptree->searchBook(book));
+		if (bptree->searchBook(book))
+			return true;
 		else
 			printErrorCode(300);
 	}
@@ -231,7 +247,8 @@ bool Manager::SEARCH_BP_RANGE(string s, string e)
 {
 	try
 	{
-		if (bptree->searchRange(s, e));
+		if (bptree->searchRange(s, e))
+			return true;
 		else
 			printErrorCode(300);
 	}
@@ -248,7 +265,10 @@ bool Manager::PRINT_BP()
 {
 	try
 	{
-		bptree->linearPrint();
+		if (bptree->linearPrint())
+			return true;
+		else
+			printErrorCode(400);	
 	}
 	catch (const char *err)
 	{
@@ -259,11 +279,14 @@ bool Manager::PRINT_BP()
 	return false;
 }
 
-bool Manager::PRINT_ST()
+bool Manager::PRINT_ST(int code)
 {
 	try
 	{
-		// todo: print selection tree
+		if (stree->printBookData(code))
+			return true;
+		else
+			printErrorCode(500);
 	}
 	catch (const char *err)
 	{
@@ -278,7 +301,10 @@ bool Manager::DELETE()
 {
 	try
 	{
-		// todo: delete
+		if (stree->Delete())
+			return true;
+		else
+			printErrorCode(600);
 	}
 	catch (const char *err)
 	{

@@ -1,0 +1,42 @@
+=======LOAD========
+Success
+=======================
+
+========ADD========
+to kill a monchingbird/400/Harper Lee/1960/1
+====================
+
+========ADD========
+1984/100/george orwell/1949/1
+====================
+
+========PRINT_BP========
+1984/100/george orwell/1949/1
+book/200/risa/1990/0
+dune/100/harari/2014/0
+educated/300/tara westover/2018/0
+gone girl/100/echhart tolle/1997/0
+the power of now/600/echhart tolle/1997/0
+to kill a monchingbird/400/Harper Lee/1960/1
+========================
+
+=======================
+ERROR 500
+=======================
+
+========SEARCH_BP========
+1984/100/george orwell/1949/1
+==========================
+
+========SEARCH_BP========
+book/200/risa/1990/0
+dune/100/harari/2014/0
+educated/300/tara westover/2018/0
+gone girl/100/echhart tolle/1997/0
+the power of now/600/echhart tolle/1997/0
+==========================
+
+=======================
+ERROR 600
+=======================
+

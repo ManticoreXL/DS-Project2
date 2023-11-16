@@ -18,10 +18,10 @@ private:
 public:
 	BpTree(ofstream *fout, int order = 3)
 	{
-		root = NULL;
+		root = nullptr;
 		this->order = order;
 		this->fout = fout;
-		split = ceil((order - 1) / 2.0);
+		split = (int)ceil((order - 1) / 2.0);
 	}
 
 	~BpTree()
@@ -32,7 +32,7 @@ public:
 	// visit every node by inorder traverse and delete
 	void recursive_delete(BpTreeNode* node)
 	{
-		if (node)
+		if (node != nullptr)
 		{
 			recursive_delete(node->getMostLeftChild());
 			if (node->getIndexMap())
@@ -41,7 +41,6 @@ public:
 			else if (node->getDataMap())
 				for (auto i = node->getDataMap()->begin(); i != node->getDataMap()->end(); i++)
 					delete i->second;
-
 			delete node;			
 		}
 	}

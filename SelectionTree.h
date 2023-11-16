@@ -16,27 +16,24 @@ public:
         this->fout = fout;
     }
 
-    ~SelectionTree()
-    {
-        inorder_delete(root);
-    }
+    ~SelectionTree() { recursive_delete(root); }
 
-    void inorder_delete(SelectionTreeNode *node)
+    void recursive_delete(SelectionTreeNode *node)
     {
-        delete node->getLeftChild();
-        SelectionTreeNode *temp = node->getRightChild();
-        delete node;
-        delete temp;
+        // delete by inorder traversal
+        if (node != nullptr)
+        {
+            recursive_delete(node->getLeftChild());
+            SelectionTreeNode* temp = node->getRightChild();
+            delete node;
+            recursive_delete(temp);
+        }
     }
 
     void setRoot(SelectionTreeNode *pN) { this->root = pN; }
     SelectionTreeNode *getRoot() { return root; }
 
     bool Insert(LoanBookData *newData);
-    SelectionTreeNode* Insert(SelectionTreeNode* node, LoanBookData* newData);
-    SelectionTreeNode* findMinNode(SelectionTreeNode* node);
     bool Delete();
-    SelectionTreeNode* Delete(SelectionTreeNode* node, string name);
     bool printBookData(int bookCode);
-    void printBookData(SelectionTreeNode* node, int bookCode);
 };

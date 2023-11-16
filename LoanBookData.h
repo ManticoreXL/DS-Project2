@@ -5,6 +5,7 @@
 #include <map>
 #include <vector>
 #include <sstream>
+#include <fstream>
 using namespace std;
 
 class LoanBookData
@@ -48,6 +49,43 @@ public:
     string getAuthor() { return author; }
     int getYear() { return year; }
     int getLoanCount() { return loan_count; }
+
+    // check loan count for delete from bptree
+    bool check()
+    {
+        // true = book have to insert into stree
+        // false = no need to move. remain in bptree
+        switch (code)
+        {
+        case 0:
+            if (loan_count >= 3) return true;
+            else return false;
+        case 100:
+            if (loan_count >= 3) return true;
+            else return false;
+        case 200:
+            if (loan_count >= 3) return true;
+            else return false;
+        case 300:
+            if (loan_count >= 4) return true;
+            else return false;
+        case 400:
+            if (loan_count >= 4) return true;
+            else return false;
+        case 500:
+            if (loan_count >= 2) return true;
+            else return false;
+        case 600:
+            if (loan_count >= 2) return true;
+            else return false;
+        case 700:
+            if (loan_count >= 2) return true;
+            else return false;
+
+        default:
+            return false;
+        }
+    }
 
     friend ostream& operator<<(ostream& fout, const LoanBookData& obj)
     {

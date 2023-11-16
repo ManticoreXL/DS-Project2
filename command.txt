@@ -2,5 +2,7 @@ LOAD
 ADD	to kill a monchingbird	400	Harper Lee	1960
 ADD	1984	100	george orwell	1949
 PRINT_BP
+PRINT_ST	300
 SEARCH_BP	1984
 SEARCH_BP	a	p
+DELETE

@@ -14,11 +14,11 @@ private:
 public:
     SelectionTreeNode()
     {
-        this->pData = NULL;
-        this->pLeft = NULL;
-        this->pRight = NULL;
-        this->pParent = NULL;
-        this->hRoot = NULL;
+        this->pData = nullptr;
+        this->pLeft = nullptr;
+        this->pRight = nullptr;
+        this->pParent = nullptr;
+        this->hRoot = nullptr;
     }
     ~SelectionTreeNode() {}
 
@@ -31,7 +31,7 @@ public:
     // function to output heap data stored in LoanBookHeap according to book classification code
     LoanBookHeapNode *deepCopy(LoanBookHeapNode *root)
     {
-        if (root == NULL)
+        if (root == nullptr)
             return nullptr;
 
         LoanBookHeapNode *copy = new LoanBookHeapNode();
@@ -45,4 +45,5 @@ public:
     SelectionTreeNode *getRightChild() { return pRight; }
     SelectionTreeNode *getParent() { return pParent; }
     LoanBookHeap *getHeap() { return hRoot; }
+    int getCode() { return pData->getCode(); }
 };

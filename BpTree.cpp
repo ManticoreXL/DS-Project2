@@ -19,6 +19,10 @@ bool BpTree::Insert(LoanBookData *newData)
 		*fout << *(i->second);
 		*fout << "====================" << endl << endl;
 		delete newData;
+
+		//if (i->second->check())
+			// delete and move to stree
+
 		return true;
 	}
 
@@ -204,8 +208,7 @@ BpTreeNode* BpTree::searchDataNode(string name)
 			for (i; i != curr->getIndexMap()->end(); i++)
 				if (name < i->first)
 					break;
-			i--; // backward step not to point to end
-			curr = i->second;
+			curr = (--i)->second;
 		}
 	}
 
@@ -237,7 +240,7 @@ bool BpTree::searchBook(string name)
 			if (i->first == name)
 			{
 				*fout << "========SEARCH_BP========" << endl;
-				*fout << *i->second;
+				*fout << *(i->second);
 				*fout << "==========================" << endl << endl;
 				return true;
 			}
@@ -284,7 +287,7 @@ bool BpTree::searchRange(string& start, string& end)
 		{
 			if (i->first >= start) // book found
 			{
-				*fout << *i->second;
+				*fout << *(i->second);
 				succ = true;
 			}
 			if (i->first > end) // stop range search
@@ -320,7 +323,7 @@ bool BpTree::linearPrint()
 	while (curr != nullptr)
 	{
 		for (auto i = curr->getDataMap()->begin(); i != curr->getDataMap()->end(); i++)
-			*fout << *i->second;
+			*fout << *(i->second);
 
 		curr = curr->getNext();
 	}
