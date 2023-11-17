@@ -26,9 +26,7 @@ public:
         pParent = nullptr;
     }
 
-    ~LoanBookHeapNode()
-    {
-    }
+    ~LoanBookHeapNode() {}
 
     void setBookData(LoanBookData *data) { this->pData = data; }
     void setLeftChild(LoanBookHeapNode *pL) { this->pLeft = pL; }

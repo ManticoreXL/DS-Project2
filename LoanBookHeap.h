@@ -11,7 +11,7 @@ private:
 public:
     LoanBookHeap(ofstream *fout) 
     { 
-        this->root = nullptr; 
+        this->root = nullptr;
         this->fout = fout;
     };
 
@@ -38,8 +38,12 @@ public:
     bool Insert(LoanBookData *data);
     LoanBookHeapNode* Insert(LoanBookHeapNode *node, LoanBookData *data);
 
+    bool Delete();
+
     void printHeap();
     void recursive_print(LoanBookHeapNode *node);
 
     void swapData(LoanBookData *data1, LoanBookData *data2);
+
+    LoanBookHeapNode* findLastNode(LoanBookHeapNode* node);
 };
